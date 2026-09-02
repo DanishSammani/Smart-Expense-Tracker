@@ -1,0 +1,52 @@
+/* ==========================================================================
+   responsive.css — Breakpoints for mobile / tablet / laptop / desktop
+   Ledger — Smart Expense Tracker
+   ========================================================================== */
+
+/* Desktop is the default (defined in style.css). This file scales down. */
+
+/* ---- Tablet (<=860px) ---- */
+@media (max-width:860px){
+  .grid{grid-template-columns:1fr;}
+  .filters-panel{grid-template-columns:repeat(2,1fr);}
+}
+
+/* ---- Small tablet / large phone (<=680px) ---- */
+@media (max-width:680px){
+  .app{padding:18px 16px 70px;}
+  .ticket{grid-template-columns:1fr;}
+  .stat:not(:last-child){border-right:none;border-bottom:1px dashed rgba(255,255,255,.18);}
+  .ticket::before,.ticket::after{display:none;}
+  .topbar{align-items:flex-start;}
+  .topbar-actions{width:100%;justify-content:flex-start;}
+  .filters-panel{grid-template-columns:1fr;}
+  .tx-row{grid-template-columns:auto 1fr;grid-template-areas:"badge main" "actions actions";row-gap:8px;}
+  .tx-cat-badge{grid-area:badge;}
+  .tx-main{grid-area:main;}
+  .tx-amount{grid-area:main;justify-self:end;margin-top:-30px;}
+  .tx-row-actions{grid-area:actions;justify-content:flex-end;}
+}
+
+/* ---- Mobile (<=480px) ---- */
+@media (max-width:480px){
+  .brand-text h1{font-size:22px;}
+  .stat-value{font-size:22px;}
+  .date-chip{display:none;}
+  .data-actions{overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px;}
+  .card-head h2{font-size:15.5px;}
+}
+
+/* ---- Print (used for Export > Print Report) ---- */
+@media print{
+  body{background:#fff;}
+  .topbar-actions, .data-actions, .toolbar, .filters-toggle, .form-actions,
+  .icon-btn, .loading-overlay, .toast, .card:has(#txForm), .tx-row-actions,
+  .budget-edit-row, .filters-panel{display:none !important;}
+  .grid{grid-template-columns:1fr;}
+  .card{box-shadow:none;border:1px solid #ccc;break-inside:avoid;}
+  .ticket{background:#fff !important;border:1px solid #ccc;}
+  .ticket::before,.ticket::after{background:#fff;}
+  .stat-value,.stat-label,.stat-sub{color:#111 !important;}
+  .stat-value.income{color:#177350 !important;}
+  .stat-value.expense{color:#B5432B !important;}
+}
