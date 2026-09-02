@@ -15,157 +15,256 @@ The interface uses a distinctive "financial ledger" visual identity: a serif dis
 ## 2. Features
 
 ### Core
-- **Create** — Add income or expense transactions with description, amount, category, and date.
-- **Read** — View all transactions in a searchable, filterable, sortable list.
-- **Update** — Edit any existing transaction in place (form switches to "Update" mode).
-- **Delete** — Remove any transaction with a confirmation prompt.
-- Auto-calculated **Total Income**, **Total Expense**, and **Current Balance**, updating live with no page reload.
-- Categorization: Food, Travel, Study, Shopping, Bills, Health, Salary, Freelance, Gift, Investment, and more.
-- Data persistence via the browser's **LocalStorage** — survives refresh and restart.
+
+* **Create** — Add income or expense transactions with description, amount, category, and date.
+* **Read** — View all transactions in a searchable, filterable, sortable list.
+* **Update** — Edit any existing transaction in place.
+* **Delete** — Remove any transaction with a confirmation prompt.
+* Auto-calculated **Total Income**, **Total Expense**, and **Current Balance**, updating live with no page reload.
+* Categorization: Food, Travel, Study, Shopping, Bills, Health, Salary, Freelance, Gift, Investment, and more.
+* Data persistence via the browser's **LocalStorage** — survives refresh and restart.
 
 ### Dashboard & Analytics
-- Today's Expenses, This Month's Expenses, Highest Expense Category, Total Transaction Count, Average Daily Spend, and Monthly Savings Rate.
-- Category breakdown doughnut chart and a 6-month income vs. expense bar chart (Chart.js).
-- Recent Activity widget showing the latest 5 entries at a glance.
+
+* Today's Expenses
+* This Month's Expenses
+* Highest Expense Category
+* Total Transaction Count
+* Average Daily Spend
+* Monthly Savings Rate
+* Category breakdown doughnut chart
+* Six-month income vs. expense bar chart
+* Recent Activity widget showing the latest five entries
 
 ### Budgeting
-- Set a monthly budget with an editable inline control.
-- Live progress bar (green → amber → red) as spending approaches the limit.
-- Automatic warning banner at 80% of budget and an alert when it's exceeded.
+
+* Set a monthly budget with an editable inline control.
+* Live progress bar as spending approaches the limit.
+* Automatic warning banner at 80% of budget.
+* Alert when the monthly budget is exceeded.
 
 ### Filtering & Search
-- Free-text search across transaction descriptions.
-- Quick filters: transaction type (income/expense) and category.
-- Advanced filter panel: date range (from/to), month, year, and amount range (min/max).
-- One-click "Reset Filters."
+
+* Free-text search across transaction descriptions.
+* Quick filters for transaction type and category.
+* Advanced filters:
+
+  * Date range
+  * Month
+  * Year
+  * Minimum amount
+  * Maximum amount
+* One-click **Reset Filters**.
 
 ### Data Portability
-- **Export CSV** — download all (filtered) transactions as a spreadsheet-ready file.
-- **Export PDF** — generate a formatted report with summary totals and a transaction table (via jsPDF).
-- **Print Report** — clean, print-optimized layout (hides interactive controls).
-- **Backup / Restore (JSON)** — export your full dataset (including budget) and re-import it later or on another device.
+
+* **Export CSV** — Download all filtered transactions as a spreadsheet-ready file.
+* **Export PDF** — Generate a formatted report with summary totals and a transaction table using jsPDF.
+* **Print Report** — Clean, print-optimized layout.
+* **Backup / Restore JSON** — Export the complete dataset, including budget, and restore it later.
 
 ### UX Details
-- Form validation: required fields, positive-number amounts, a sensible maximum amount, a 60-character description limit, no future dates, and a guard against accidental duplicate double-submits.
-- Loading state on startup and a friendly empty-state illustration when filters return nothing.
-- Subtle row-entry animation and animated count-up on summary figures.
-- Dark mode toggle with the preference remembered across sessions.
-- Fully responsive across mobile, tablet, laptop, and desktop breakpoints.
+
+* Form validation for required fields.
+* Positive-number amount validation.
+* Sensible maximum amount limit.
+* 60-character description limit.
+* No future transaction dates.
+* Protection against accidental duplicate submissions.
+* Loading state on startup.
+* Friendly empty-state illustration.
+* Subtle transaction row animations.
+* Animated count-up for summary figures.
+* Dark mode with saved preference.
+* Fully responsive across mobile, tablet, laptop, and desktop.
 
 ---
 
 ## 3. Technologies Used
 
-| Layer          | Technology                                  |
-|----------------|----------------------------------------------|
-| Structure      | HTML5                                         |
-| Styling        | CSS3 (custom properties / design tokens, Grid, Flexbox) |
-| Behavior       | Vanilla JavaScript (ES6, no framework/build step) |
-| Charts         | Hand-built inline SVG (no external chart library — always renders, works fully offline) |
-| PDF export     | [jsPDF](https://github.com/parallax/jsPDF) + jsPDF-AutoTable (via CDN, optional) |
-| Data storage   | Browser `localStorage` API                    |
-| Fonts          | Fraunces, Inter, IBM Plex Mono (Google Fonts, optional — falls back to system fonts offline) |
+| Layer        | Technology                               |
+| ------------ | ---------------------------------------- |
+| Structure    | HTML5                                    |
+| Styling      | CSS3 — Custom Properties, Grid, Flexbox  |
+| Behavior     | Vanilla JavaScript ES6                   |
+| Charts       | Hand-built inline SVG                    |
+| PDF Export   | jsPDF + jsPDF-AutoTable via optional CDN |
+| Data Storage | Browser `localStorage` API               |
+| Fonts        | Fraunces, Inter, IBM Plex Mono           |
 
-No build tools, bundlers, or backend server are required — open `index.html` directly in any modern browser.
+No build tools, bundlers, or backend server are required. The project can be opened directly through `index.html` in a modern browser.
 
-> **Offline-first by design:** the category and monthly charts are generated as plain inline SVG from your own data — no external charting library, no CDN, no internet required. Only two things are CDN-dependent and strictly optional: Google Fonts (falls back to system fonts) and the **Export PDF** button (falls back to a clear message directing you to Export CSV instead if it can't load). Every core feature — add/edit/delete, filters, budget, charts, CSV export, backup/restore — works completely offline.
+> **Offline-first by design:** The category and monthly charts are generated as plain inline SVG from the application's own data. No external charting library is required. Core features such as adding, editing, deleting, filtering, budgeting, charts, CSV export, and JSON backup/restore work completely offline.
+>
+> Google Fonts and PDF export libraries are optional CDN dependencies. If Google Fonts are unavailable, the application falls back to system fonts. If the PDF libraries cannot be loaded, the application continues to work normally and CSV export remains available.
 
 ---
 
 ## 4. Folder Structure
 
-```
+```text
 Smart-Expense-Tracker/
 │
-├── index.html                # Single entry point — all markup
+├── index.html
+│
 ├── css/
-│   ├── variables.css         # Design tokens: colors, type, radius, shadow (light + dark theme)
-│   ├── style.css             # Core layout & component styles
-│   └── responsive.css        # Breakpoints: mobile / tablet / laptop / desktop + print styles
+│   ├── variables.css
+│   ├── style.css
+│   └── responsive.css
+│
 ├── js/
-│   ├── utils.js               # Shared config (categories, limits) & helper functions
-│   ├── storage.js             # LocalStorage persistence + CSV/PDF/JSON export & restore
-│   ├── validation.js          # Form validation rules
-│   ├── charts.js              # Dependency-free inline SVG chart rendering (category + monthly)
-│   ├── ui.js                  # All DOM rendering functions
-│   └── app.js                 # State, event wiring, CRUD orchestration, init
+│   ├── utils.js
+│   ├── storage.js
+│   ├── validation.js
+│   ├── charts.js
+│   ├── ui.js
+│   └── app.js
+│
 ├── assets/
-│   ├── images/                # Reserved for future use (e.g. onboarding graphics)
+│   ├── images/
 │   ├── icons/
 │   │   └── favicon.svg
 │   └── logo/
 │       └── logo.svg
+│
 ├── README.md
+│
 └── presentation/
     └── Smart_Expense_Tracker_Presentation.pptx
 ```
 
-Scripts are loaded as plain `<script>` tags (no ES module system), so the project runs by simply double-clicking `index.html` — no local server required.
+### JavaScript Files
+
+| File            | Responsibility                                                          |
+| --------------- | ----------------------------------------------------------------------- |
+| `utils.js`      | Shared configuration, categories, limits, and helper functions          |
+| `storage.js`    | LocalStorage persistence and CSV/PDF/JSON export and restore            |
+| `validation.js` | Form validation rules                                                   |
+| `charts.js`     | Dependency-free inline SVG chart rendering                              |
+| `ui.js`         | DOM rendering and UI updates                                            |
+| `app.js`        | Application state, event wiring, CRUD orchestration, and initialization |
+
+Scripts are loaded as standard `<script>` tags without an ES module system, so the project can run by simply opening `index.html`.
 
 ---
 
 ## 5. Installation & Usage
 
-1. Download or clone this project folder.
-2. Open `index.html` in any modern browser (Chrome, Edge, Firefox, Safari).
-3. That's it — no `npm install`, no server, no build step.
+### Installation
 
-### Basic usage
-- Use the **Add Transaction** form to log income or expenses.
-- Click the **pencil icon** on any row to edit it, or the **trash icon** to delete it.
-- Use the **search bar**, **type/category dropdowns**, or **More Filters** panel to narrow the transaction list.
-- Set a **Monthly Budget** from its card in the dashboard row to get spending warnings.
-- Use **Export CSV / Export PDF / Print Report / Backup JSON** to take your data with you.
-- Toggle **dark mode** from the sun/moon icon in the header.
+No package installation is required.
+
+Clone the repository:
+
+```bash
+git clone https://github.com/DanishSammani/Smart-Expense-Tracker.git
+```
+
+Then open the project folder.
+
+### Running the Application
+
+Open:
+
+```text
+index.html
+```
+
+in any modern browser such as:
+
+* Google Chrome
+* Microsoft Edge
+* Mozilla Firefox
+* Safari
+
+No `npm install`, backend server, or build step is required.
+
+### Basic Usage
+
+* Use the **Add Transaction** form to log income or expenses.
+* Click the **pencil icon** on any transaction to edit it.
+* Click the **trash icon** to delete a transaction.
+* Use the **search bar** to search transaction descriptions.
+* Use the **type/category dropdowns** to filter transactions.
+* Open **More Filters** for advanced filtering.
+* Set a **Monthly Budget** from the dashboard.
+* Use **Export CSV**, **Export PDF**, **Print Report**, or **Backup JSON** to manage your data.
+* Toggle **dark mode** using the theme icon in the header.
 
 ---
 
 ## 6. Real-Life Uses
 
-- **Individuals** tracking personal daily spending habits.
-- **Students** managing limited pocket money across food, travel, and study costs.
-- **Freelancers** separating project income from recurring business expenses.
-- **Small businesses** logging petty cash where a full accounting suite is overkill.
-- **Households** monitoring shared monthly bills, groceries, and utilities.
+* **Individuals** — Track personal daily spending habits.
+* **Students** — Manage limited pocket money across food, travel, and study expenses.
+* **Freelancers** — Separate project income from recurring business expenses.
+* **Small Businesses** — Log petty cash where a full accounting suite is unnecessary.
+* **Households** — Monitor shared monthly bills, groceries, and utilities.
 
 ---
 
 ## 7. Advantages & Limitations
 
-**Advantages**
-- No installation, login, or account required.
-- Instant, real-time UI updates with zero page reloads.
-- Clean categorization makes spending patterns obvious at a glance.
-- Fully responsive — usable on any device size.
-- Own your data: export/backup any time, no vendor lock-in.
+### Advantages
 
-**Limitations**
-- Data stays on one browser — no automatic cross-device sync (mitigated by manual JSON backup/restore).
-- No user accounts, so there's no remote backup unless you export manually.
-- Clearing browser storage erases transaction history if no backup was taken.
-- Single-currency, single-user by design.
+* No installation, login, or account required.
+* Instant, real-time UI updates with zero page reloads.
+* Clear categorization makes spending patterns easy to understand.
+* Fully responsive across device sizes.
+* Data remains under the user's control.
+* Export and backup functionality available.
+* Core functionality works offline.
+
+### Limitations
+
+* Data stays in one browser and does not automatically sync across devices.
+* No user accounts or remote backup.
+* Clearing browser storage can erase transaction history if no backup exists.
+* Single-currency design.
+* Single-user application.
 
 ---
 
 ## 8. Future Scope
 
-- Migrate storage to a **Node.js + Express + MongoDB** backend for durable, queryable, multi-device data.
-- **User accounts & authentication** for private, synced ledgers.
-- **Cloud sync** across phone, tablet, and desktop.
-- **Receipt scanning (OCR)** to auto-fill amount and category from a photo.
-- Recurring transactions and scheduled reminders.
-- Multi-currency support.
+The project can be extended with:
+
+* **Node.js + Express + MongoDB** backend integration.
+* User accounts and authentication.
+* Cloud synchronization across devices.
+* Receipt scanning using OCR.
+* Automatic transaction categorization.
+* Recurring transactions.
+* Scheduled reminders.
+* Multi-currency support.
+* Advanced financial reports.
+* Cloud-based data backup.
 
 ---
 
 ## 9. Presentation
 
-A full project presentation covering the introduction, workflow, features, real-life uses, advantages/disadvantages, and future scope is included in [`presentation/Smart_Expense_Tracker_Presentation.pptx`](./presentation/Smart_Expense_Tracker_Presentation.pptx).
+A complete project presentation covering the introduction, workflow, features, real-life applications, advantages, limitations, and future scope is included in:
+
+[`presentation/Smart_Expense_Tracker_Presentation.pptx`](./presentation/Smart_Expense_Tracker_Presentation.pptx)
 
 ---
 
 ## 10. Credits
 
-Built as a Web Development Internship final project to demonstrate frontend engineering, UI/UX design, and client-side data handling skills.
-#   S m a r t - E x p e n s e - T r a c k e r  
- 
+Built as a **Web Development Internship final project** to demonstrate frontend engineering, UI/UX design, CRUD operations, client-side data persistence, data visualization, and browser-based data management.
+
+---
+
+## 👨‍💻 Author
+
+**Md Danish Ali**
+
+Computer Engineering
+NIAMT, Ranchi
+
+GitHub: [DanishSammani](https://github.com/DanishSammani/Smart-Expense-Tracker)
+
+---
+
+⭐ If you find this project useful, consider giving the repository a star.
